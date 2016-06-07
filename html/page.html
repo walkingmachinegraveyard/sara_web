@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+
+<script type="text/javascript" type="text/javascript">
+  // Connecting to ROS
+  // -----------------
+
+  var ros = new ROSLIB.Ros({
+    url : 'ws://localhost:9090'
+  });
+
+  ros.on('connection', function() {
+    console.log('Connected to websocket server.');
+  });
+
+  ros.on('error', function(error) {
+    console.log('Error connecting to websocket server: ', error);
+  });
+
+  ros.on('close', function() {
+    console.log('Connection to websocket server closed.');
+  });
+
+  // Subscribing to a Topic
+  // ----------------------
+
+  var listener = new ROSLIB.Topic({
+    ros : ros,
+    name : '/listener',
+    messageType : 'std_msgs/String'
+  });
+
+  listener.subscribe(function(message) {
+    console.log('Received message on ' + listener.name + ': ' + message.data);
+    listener.unsubscribe();
+  });
+
+  // Getting and setting a param value
+  // ---------------------------------
+
+  ros.getParams(function(params) {
+    console.log(params);
+  });
+
+function sendMessage(){
+
+  var cmdVel = new ROSLIB.Topic({
+    ros : ros,
+    name : '/sara_tts',
+    messageType : 'std_msgs/String'
+  });
+
+  var twist = new ROSLIB.Message({
+    data : document.getElementById("myText").value
+  });
+  cmdVel.publish(twist);
+}
+
+function myFunction() {
+    document.getElementById("demo").innerHTML = "YOU CLICKED ME!";
+}
+
+</script>
+</head>
+<style>
+
+
+body { 
+    background-color: #000000;
+    background-image:url("http://thumbs.dreamstime.com/t/texture-futuriste-de-techno-de-vecteur-sans-couture-66796030.jpg") ;
+    
+}
+
+.input {
+    width: 49%;
+}
+
+.image {
+    background-image:url("logo-trans2.png");
+    background-repeat: no-repeat;
+}
+
+.btnClass {
+    background-color: #008CBA;
+
+    color: white;
+    padding: 15px 0px;
+    margin: 1px 0px;
+    text-align: center;
+    width: 49%;
+    height: 40%;
+    border-radius: 20px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.sendBtn {
+    background-color: #0033cc;
+    
+    color: white;
+    padding: 15px 0px;
+    margin: 1px 0px;
+    text-align: center;
+    width: 49%;
+    height: 40%;
+    border-radius: 20px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.stopBtn {
+    background-color: #FF0000;
+    
+    color: white;
+    padding: 30px 64px;
+    margin: 1px 1px;
+    text-align: center;
+    width: 98%;
+    height: 40%;
+    border-radius: 20px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 32px;
+}
+
+.startBtn {
+    background-color: #22CC22;
+    
+    color: white;
+    padding: 30px 64px;
+    margin: 1px 1px;
+    text-align: center;
+    width: 98%;
+    height: 40%;
+    border-radius: 20px;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 32px;
+}
+ 
+.btnClass:hover {
+  
+}
+
+.holder{ text-align: center; }
+
+</style>
+<body>
+<div class="image">
+  </br></br></br></br></br></br></br></br></br>
+</div>
+
+<div class="holder">
+  <input type="text" class="input" id="myText" value="Mickey">
+  <button class="sendBtn" type="button" onclick="sendMessage()">Send message</button>
+</br></br>
+<button class="btnClass" type="button" onclick="sendMessage()">Scénario 1</button>
+<button class="btnClass" type="button" onclick="sendMessage()">Scénario 2</button>
+<button class="btnClass" type="button" onclick="sendMessage()">Scénario 3</button>
+<button class="btnClass" type="button" onclick="sendMessage()">Scénario 4</button>
+<button class="btnClass" type="button" onclick="sendMessage()">Scénario 5</button>
+<button class="btnClass" type="button" onclick="sendMessage()">Scénario 6</button>
+<button class="startBtn" type="button" onclick="sendMessage()">START</button>
+<button class="stopBtn" type="button" onclick="sendMessage()">STOP</button>
+
+</div>
+
+
+</body>
+</html>
