@@ -5,8 +5,12 @@ Web interface for SARA. Aim to work on the BeagleBone Black screen, but can be u
 On SARA computer :
 sudo apt-get install ros-indigo-rosbridge-server
 sudo apt-get install apache2-mpm-prefork
-copy content of html in /var/www/html (need to be done with 'sudo cp') 
-
+sudo nano /etc/apache2/sites-available/000-default.conf
+-Change the following line : DocumentRoot /var/www/html for DocumentRoot /home/wm/sara_web/html
+sudo nano /etc/apache2/apache2.conf
+-Change the following line : <Directory /var/www/> for <Directory /home/wm/sara_web/>
+sudo apache2ctl restart
+ 
 On BeagleBone :
 sudo apt-get install chromium-browser
 
