@@ -2,62 +2,30 @@
 <html>
 <head>
 <meta charset="utf-8" />
+
 <script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
 <script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
 
 <script type="text/javascript" type="text/javascript">
-  // Connecting to ROS
-  // -----------------
 
-  var ros = new ROSLIB.Ros({
-    url : 'ws://localhost:9090'
-  });
-
-  ros.on('connection', function() {
-    console.log('Connected to websocket server.');
-  });
-
-  ros.on('error', function(error) {
-    console.log('Error connecting to websocket server: ', error);
-  });
-
-  ros.on('close', function() {
-    console.log('Connection to websocket server closed.');
-  });
-
-  // Subscribing to a Topic
-  // ----------------------
-
-  var listener = new ROSLIB.Topic({
-    ros : ros,
-    name : '/web_log',
-    messageType : 'std_msgs/String'
-  });
-
-  listener.subscribe(function(message) {
-    
-    document.getElementById("console").innerHTML = document.getElementById("console").innerHTML  + message.data+ "<br/>";
-  });
-
-
-
-  // Getting and setting a param value
-  // ---------------------------------
-
-  ros.getParams(function(params) {
-    console.log(params);
-  });
-
-
-
+function myFunction() {
+        if(document.getElementById("startBtn").innerHTML == "START")
+	{
+	   document.getElementById("startBtn").innerHTML = "STOP";
+           document.getElementById("startBtn").setAttribute("class", "stopBtn");
+	}
+	else
+	{
+	   document.getElementById("startBtn").innerHTML = "START";
+	   document.getElementById("startBtn").setAttribute("class", "startBtn");
+	}
+	
+}
 </script>
 
 </head>
 <style>
 
-.unselectable {
-
-}
 
 @import url("http://fonts.googleapis.com/css?family=Lobster");
 @import url(http://fonts.googleapis.com/css?family=Lobster);
@@ -68,8 +36,16 @@
   font-weight: normal;
   font-style: normal;
 }
-body {
 
+
+
+b{
+text-shadow: 0 0 10px #00ccff;
+
+}
+
+body {
+    
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -77,21 +53,14 @@ body {
     -ms-user-select: none;
     user-select: none;
 
-
+  font-size:500%;
   margin: 0;
   padding: 0;
   background: url("noise.png") repeat;
   padding: 30px;
 }
 
-.textbox{ 
-  width: 100%;
-  height:100px; 
- text-align: top; 
-}
-
-
-a, input[type='radio'] + label {
+a{
   text-align: center;
   display: inline-block;
   text-decoration: none;
@@ -100,47 +69,18 @@ a, input[type='radio'] + label {
   font-family: 'Trebuchet MS', Helvetica, sans-serif;
 }
 
-fieldset {
-  border: 1px solid #222;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  border-radius: 8px;
-  margin: 20px 0 0 0;
-  min-height: 90px;
-  line-height: 90px;
-  position: relative;
-  float: left;
-  margin-right: 20px;
-  padding: 20px;
-}
-fieldset h2 {
-  font-family: 'Lobster', cursive;
-  font-weight: normal;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
-  display: inline-block;
-  margin: 0;
-  line-height: 1.5;
-  position: absolute;
-  top: -20px;
-  background: url("http://www.bradysammons.com/codepen/darkui/noise.png") repeat;
-  padding: 0 5px 0 10px;
-}
-
-input[type='radio'] {
-  display: none;
-}
 
 /* -------------------
 	Default State
 -------------------- */
 a.glowBtn, input[type='radio'] + label {
   z-index: 10;
-  margin: 0 10px 10px 0;
-  width: 115.5px;
-  height: 37.29px;
-  line-height: 36.3px;
+  width: 48%;
+  height: 100px;
+  line-height: 60px;
   position: relative;
-  font-size: 13.2px;
+  font-size: 50px;
+  padding-top:20px;
   letter-spacing: .1em;
   color: #0e0e0e;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
@@ -164,10 +104,10 @@ a.glowBtn:after, input[type='radio'] + label:after {
   content: '';
   cursor: pointer;
   top: 1.98px;
-  margin-left: 50%;
-  left: -55px;
-  width: 110px;
-  height: 33px;
+  padding-top:20px;
+  margin-left: 0.25%;
+  width: 99.5%;
+  height: 96px;
   display: block;
   position: absolute;
   background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzQ0NDQ0NCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzM3MzczOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
@@ -247,85 +187,6 @@ input[type='radio'] + label:after {
   height: 50px;
 }
 
-/* -------------------
-	SuperBtn
--------------------- */
-a.superBtn {
-  color: #0e0e0e;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
-  font-weight: bold;
-  letter-spacing: .08em;
-  width: 242px;
-  height: 39.6px;
-  line-height: 39.6px;
-  position: relative;
-  -moz-border-radius: 30px;
-  -webkit-border-radius: 30px;
-  border-radius: 30px;
-  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzJlMzUzNyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzQyNDc0OCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-  background-size: 100%;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #2e3537), color-stop(100%, #424748));
-  background-image: -moz-linear-gradient(#2e3537, #424748);
-  background-image: -webkit-linear-gradient(#2e3537, #424748);
-  background-image: linear-gradient(#2e3537, #424748);
-  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 rgba(0, 0, 0, 0.3), inset 0 0 0px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 2px rgba(0, 0, 0, 0.4);
-  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 rgba(0, 0, 0, 0.3), inset 0 0 0px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 2px rgba(0, 0, 0, 0.4);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 rgba(0, 0, 0, 0.3), inset 0 0 0px 1px rgba(0, 0, 0, 0.1), 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 2px rgba(0, 0, 0, 0.4);
-}
-
-a.superBtn:after {
-  width: 253px;
-  height: 49.5px;
-  top: -4.95px;
-  margin-left: 50%;
-  left: -126.5px;
-  content: '';
-  display: block;
-  -moz-border-radius: 30px;
-  -webkit-border-radius: 30px;
-  border-radius: 30px;
-  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzJhZjFmYyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzE3YjJlNiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-  background-size: 100%;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #2af1fc), color-stop(100%, #17b2e6));
-  background-image: -moz-linear-gradient(#2af1fc, #17b2e6);
-  background-image: -webkit-linear-gradient(#2af1fc, #17b2e6);
-  background-image: linear-gradient(#2af1fc, #17b2e6);
-  -moz-box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.7), 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 1px 1px rgba(0, 0, 0, 0.3), inset 0 0px 3px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(0, 0, 0, 0.6);
-  -webkit-box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.7), 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 1px 1px rgba(0, 0, 0, 0.3), inset 0 0px 3px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(0, 0, 0, 0.6);
-  box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.7), 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 1px 1px rgba(0, 0, 0, 0.3), inset 0 0px 3px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(0, 0, 0, 0.6);
-  position: absolute;
-  z-index: -1;
-}
-
-/* -------------------
-	SuperBtn Hover
--------------------- */
-a.superBtn:hover {
-  color: #AEAEAE;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.8);
-  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzU0NTQ1NCIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzM3MzczOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-  background-size: 100%;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #545454), color-stop(100%, #373738));
-  background-image: -moz-linear-gradient(#545454, #373738);
-  background-image: -webkit-linear-gradient(#545454, #373738);
-  background-image: linear-gradient(#545454, #373738);
-}
-
-a.superBtn:hover:after {
-  -moz-box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.7), 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 1px 1px rgba(0, 0, 0, 0.3), inset 0 0px 3px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(0, 0, 0, 0.6), 0 0 15px 5px rgba(0, 255, 255, 0.2);
-  -webkit-box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.7), 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 1px 1px rgba(0, 0, 0, 0.3), inset 0 0px 3px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(0, 0, 0, 0.6), 0 0 15px 5px rgba(0, 255, 255, 0.2);
-  box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.7), 0 1px 1px rgba(255, 255, 255, 0.4), 0 0 1px 1px rgba(0, 0, 0, 0.3), inset 0 0px 3px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(0, 0, 0, 0.6), 0 0 15px 5px rgba(0, 255, 255, 0.2);
-}
-
-a.superBtn:active {
-  color: #00ccff;
-  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3), 0 0px 30px rgba(0, 255, 255, 0.7);
-  background: #333;
-  -moz-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.4), inset 0 3px 3px rgba(0, 0, 0, 0.7), inset 0 0 4px rgba(0, 0, 0, 0.9), 0 0 0 black;
-  -webkit-box-shadow: 0 1px 0px rgba(255, 255, 255, 0.4), inset 0 3px 3px rgba(0, 0, 0, 0.7), inset 0 0 4px rgba(0, 0, 0, 0.9), 0 0 0 black;
-  box-shadow: 0 1px 0px rgba(255, 255, 255, 0.4), inset 0 3px 3px rgba(0, 0, 0, 0.7), inset 0 0 4px rgba(0, 0, 0, 0.9), 0 0 0 black;
-}
-
 
 /*-----------START BUTTON-------------
 --------------------------------------*/
@@ -335,9 +196,11 @@ a.startBtn {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
   font-weight: bold;
   letter-spacing: .08em;
-  width: 242px;
-  height: 39.6px;
-  line-height: 39.6px;
+  width: 80%;
+  height: 250px;
+  margin-top:50px;
+  margin-bottom:50px;
+  line-height: 230px;
   position: relative;
   -moz-border-radius: 30px;
   -webkit-border-radius: 30px;
@@ -354,11 +217,10 @@ a.startBtn {
 }
 
 a.startBtn:after {
-  width: 253px;
-  height: 49.5px;
-  top: -4.95px;
-  margin-left: 50%;
-  left: -126.5px;
+  width: 102%;
+  height: 270px;
+  top: -10px;
+  margin-left: -1%;
   content: '';
   display: block;
   -moz-border-radius: 30px;
@@ -407,14 +269,18 @@ a.startBtn:active {
 /*-----------STOP BUTTON-------------
 --------------------------------------*/
 
+
 a.stopBtn {
   color: #0e0e0e;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
   font-weight: bold;
   letter-spacing: .08em;
-  width: 242px;
-  height: 39.6px;
-  line-height: 39.6px;
+  width: 80%;
+  margin-top:50px;
+  margin-bottom:50px;
+  height: 250px;
+  line-height: 230px;
+  
   position: relative;
   -moz-border-radius: 30px;
   -webkit-border-radius: 30px;
@@ -431,11 +297,10 @@ a.stopBtn {
 }
 
 a.stopBtn:after {
-  width: 253px;
-  height: 49.5px;
-  top: -4.95px;
-  margin-left: 50%;
-  left: -126.5px;
+  width: 102%;
+  height: 270px;
+  top: -10px;
+  margin-left: -1%;
   content: '';
   display: block;
   -moz-border-radius: 30px;
@@ -480,21 +345,19 @@ a.stopBtn:active {
   box-shadow: 0 1px 0px rgba(255, 255, 255, 0.4), inset 0 3px 3px rgba(0, 0, 0, 0.7), inset 0 0 4px rgba(0, 0, 0, 0.9), 0 0 0 black;
 }
 
-.logo {
-    background-image:url("logo-trans2.png");
-    background-repeat: no-repeat;
-}
 
-</style>
-<body>
 
-<div class="logo">
-</br></br></br></br></br></br></br></br>
+
+
+ </style> 
+
+<body  >
+
+<div>
+<b>SCENARIO 3</b>
+<a  class='startBtn' id='startBtn' onclick="myFunction()" >START</a>
+
+<a class='glowBtn' href="index.html">Back</a>
 </div>
-<div id="console" style="height:400px;width:95%;border:1px solid #ccc;background:#EEEEEE;padding:10px; font:16px/26px Georgia, Garamond, Serif;overflow:scroll;">
-
-</div>
-
-
 </body>
 </html>
